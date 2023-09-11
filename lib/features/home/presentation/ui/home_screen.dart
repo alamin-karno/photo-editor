@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/providers/providers.dart';
+import 'package:photo_editor/features/home/presentation/widgets/bottom_button_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,7 +10,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black12,
+      appBar: AppBar(
+        leading: CloseButton(
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text('Photo Editor'),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'Save',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(color: Colors.blue),
+            ),
+          )
+        ],
+      ),
       body: Center(
         child: Consumer<AppImageProvider>(
           builder: (context, state, child) {
@@ -17,6 +39,32 @@ class HomeScreen extends StatelessWidget {
             }
             return const CircularProgressIndicator.adaptive();
           },
+        ),
+      ),
+      bottomNavigationBar: Container(
+        width: double.infinity,
+        height: 60,
+        color: Colors.black,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                BottomButtonWidget(
+                  icon: CupertinoIcons.crop_rotate,
+                  title: 'Crop',
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, '/crop');
+                  },
+                ),
+                BottomButtonWidget(
+                  icon: CupertinoIcons.add,
+                  title: 'Title',
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
