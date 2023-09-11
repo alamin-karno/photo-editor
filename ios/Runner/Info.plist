@@ -47,5 +47,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Editor need photo library permission to access your photo to edit.</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Photo Editor need camera permission to capture image for edit.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Photo Editor might need microphone permission while opening camera.</string>
 </dict>
 </plist>

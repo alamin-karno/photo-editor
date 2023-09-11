@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:photo_editor/core/providers/image_provider.dart';
+import 'package:photo_editor/features/home/presentation/ui/home_screen.dart';
 import 'package:photo_editor/features/start/presentation/ui/start_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppImageProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +27,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: const StartScreen(),
+      routes: {
+        '/': (_) => const StartScreen(),
+        '/home': (_) => const HomeScreen(),
+      },
+      initialRoute: '/',
     );
   }
 }

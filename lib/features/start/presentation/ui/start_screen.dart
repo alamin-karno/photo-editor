@@ -1,8 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:photo_editor/core/helper/helper.dart';
+import 'package:photo_editor/core/providers/providers.dart';
+import 'package:provider/provider.dart';
 
-class StartScreen extends StatelessWidget {
+class StartScreen extends StatefulWidget {
   const StartScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StartScreen> createState() => _StartScreenState();
+}
+
+class _StartScreenState extends State<StartScreen> {
+  late AppImageProvider imageProvider;
+
+  @override
+  void initState() {
+    imageProvider = Provider.of<AppImageProvider>(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +57,21 @@ class StartScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AppImagePicker(source: ImageSource.gallery).pick(
+                          onPick: (File? image) {
+                            if (image != null) {
+                              imageProvider.onChangeImage(image);
+                              Navigator.of(context).pushNamed('/home');
+                            }
+                          },
+                        );
+                      },
                       child: Row(
                         children: [
                           const Icon(
-                              CupertinoIcons.photo_fill_on_rectangle_fill),
+                            CupertinoIcons.photo_fill_on_rectangle_fill,
+                          ),
                           const SizedBox(width: 5),
                           Text(
                             'Gallery',
@@ -52,7 +81,16 @@ class StartScreen extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AppImagePicker(source: ImageSource.camera).pick(
+                          onPick: (File? image) {
+                            if (image != null) {
+                              imageProvider.onChangeImage(image);
+                              Navigator.of(context).pushNamed('/home');
+                            }
+                          },
+                        );
+                      },
                       child: Row(
                         children: [
                           const Icon(CupertinoIcons.camera),
