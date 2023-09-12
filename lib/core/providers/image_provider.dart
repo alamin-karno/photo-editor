@@ -6,8 +6,13 @@ import 'package:flutter/cupertino.dart';
 class AppImageProvider extends ChangeNotifier {
   Uint8List? _currentImage;
 
-  onChangeImage(File image) {
+  onChangeImageFile(File image) {
     _currentImage = image.readAsBytesSync();
+    notifyListeners();
+  }
+
+  onChangeImage(Uint8List image) {
+    _currentImage = image;
     notifyListeners();
   }
 

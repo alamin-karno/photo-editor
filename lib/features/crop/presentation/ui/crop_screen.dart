@@ -1,3 +1,7 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/library/crop_image/crop_image.dart';
@@ -14,9 +18,11 @@ class CropScreen extends StatefulWidget {
 
 class _CropScreenState extends State<CropScreen> {
   late CropController controller;
+  late AppImageProvider imageProvider;
 
   @override
   void initState() {
+    imageProvider = Provider.of<AppImageProvider>(context, listen: false);
     controller = CropController(
       aspectRatio: 1,
       defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
@@ -31,13 +37,22 @@ class _CropScreenState extends State<CropScreen> {
         leading: CloseButton(
           color: Colors.white,
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/home');
+            Navigator.of(context).pop();
           },
         ),
         title: const Text('Crop'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              ui.Image bitmap = await controller.croppedBitmap();
+              ByteData? data = await bitmap.toByteData(
+                format: ImageByteFormat.png,
+              );
+              Uint8List image = data!.buffer.asUint8List();
+              imageProvider.onChangeImage(image);
+              if (!mounted) return;
+              Navigator.of(context).pop();
+            },
             icon: const Icon(CupertinoIcons.checkmark_alt),
           ),
         ],
@@ -49,7 +64,7 @@ class _CropScreenState extends State<CropScreen> {
               return CropImage(
                 controller: controller,
                 image: Image.memory(state.currentImage!),
-                alwaysShowThirdLines: false,
+                alwaysMove: true,
               );
             }
             return const CircularProgressIndicator.adaptive();
@@ -85,7 +100,7 @@ class _CropScreenState extends State<CropScreen> {
                 ),
                 BottomIconButtonWidget(
                   onTap: () {
-                    controller.aspectRatio = -1;
+                    controller.aspectRatio = null;
                     controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
                   },
                   child: const Icon(
@@ -110,9 +125,10 @@ class _CropScreenState extends State<CropScreen> {
                   },
                   child: Text(
                     '1:2',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          color: Colors.white,
-                        ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: Colors.white),
                   ),
                 ),
                 BottomIconButtonWidget(
@@ -122,9 +138,62 @@ class _CropScreenState extends State<CropScreen> {
                   },
                   child: Text(
                     '2:1',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          color: Colors.white,
-                        ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+                BottomIconButtonWidget(
+                  onTap: () {
+                    controller.aspectRatio = 4 / 3;
+                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                  },
+                  child: Text(
+                    '4:3',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+                BottomIconButtonWidget(
+                  onTap: () {
+                    controller.aspectRatio = 3 / 4;
+                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                  },
+                  child: Text(
+                    '3:4',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+                BottomIconButtonWidget(
+                  onTap: () {
+                    controller.aspectRatio = 16 / 9;
+                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                  },
+                  child: Text(
+                    '16:9',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+                BottomIconButtonWidget(
+                  onTap: () {
+                    controller.aspectRatio = 9 / 16;
+                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                  },
+                  child: Text(
+                    '9:16',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: Colors.white),
                   ),
                 ),
               ],

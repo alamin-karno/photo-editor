@@ -61,7 +61,7 @@ class _StartScreenState extends State<StartScreen> {
                         AppImagePicker(source: ImageSource.gallery).pick(
                           onPick: (File? image) {
                             if (image != null) {
-                              imageProvider.onChangeImage(image);
+                              imageProvider.onChangeImageFile(image);
                               Navigator.of(context).pushNamed('/home');
                             }
                           },
@@ -85,7 +85,7 @@ class _StartScreenState extends State<StartScreen> {
                         AppImagePicker(source: ImageSource.camera).pick(
                           onPick: (File? image) {
                             if (image != null) {
-                              imageProvider.onChangeImage(image);
+                              imageProvider.onChangeImageFile(image);
                               Navigator.of(context).pushNamed('/home');
                             }
                           },

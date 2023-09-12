@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                   icon: CupertinoIcons.crop_rotate,
                   title: 'Crop',
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, '/crop');
+                    Navigator.pushNamed(context, '/crop');
                   },
                 ),
                 BottomButtonWidget(
