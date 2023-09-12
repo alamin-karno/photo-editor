@@ -19,16 +19,10 @@ class HomeScreen extends StatelessWidget {
         ),
         title: const Text('Photo Editor'),
         actions: [
-          TextButton(
+          IconButton(
             onPressed: () {},
-            child: Text(
-              'Save',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(color: Colors.blue),
-            ),
-          )
+            icon: const Icon(Icons.save),
+          ),
         ],
       ),
       body: Center(
@@ -42,27 +36,30 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        width: double.infinity,
-        height: 60,
         color: Colors.black,
         child: SafeArea(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                BottomButtonWidget(
-                  icon: CupertinoIcons.crop_rotate,
-                  title: 'Crop',
-                  onTap: () {
-                    Navigator.pushNamed(context, '/crop');
-                  },
-                ),
-                BottomButtonWidget(
-                  icon: CupertinoIcons.add,
-                  title: 'Title',
-                  onTap: () {},
-                ),
-              ],
+          child: Container(
+            width: double.infinity,
+            height: 60,
+            color: Colors.black,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  BottomButtonWidget(
+                    icon: CupertinoIcons.crop_rotate,
+                    title: 'Crop',
+                    onTap: () {
+                      Navigator.pushNamed(context, '/crop');
+                    },
+                  ),
+                  BottomButtonWidget(
+                    icon: Icons.filter_vintage_outlined,
+                    title: 'Filters',
+                    onTap: () {},
+                  ),
+                ],
+              ),
             ),
           ),
         ),

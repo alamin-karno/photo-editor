@@ -72,131 +72,134 @@ class _CropScreenState extends State<CropScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        width: double.infinity,
-        height: 60,
         color: Colors.black,
         child: SafeArea(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.rotateRight();
-                  },
-                  child: const Icon(
-                    Icons.rotate_90_degrees_cw_outlined,
-                    color: Colors.white,
+          child: Container(
+            width: double.infinity,
+            height: 60,
+            color: Colors.black,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.rotateRight();
+                    },
+                    child: const Icon(
+                      Icons.rotate_90_degrees_cw_outlined,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.rotateLeft();
-                  },
-                  child: const Icon(
-                    Icons.rotate_90_degrees_ccw_outlined,
-                    color: Colors.white,
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.rotateLeft();
+                    },
+                    child: const Icon(
+                      Icons.rotate_90_degrees_ccw_outlined,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.aspectRatio = null;
-                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
-                  },
-                  child: const Icon(
-                    Icons.crop_free,
-                    color: Colors.white,
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.aspectRatio = null;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                    },
+                    child: const Icon(
+                      Icons.crop_free,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.aspectRatio = 1;
-                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
-                  },
-                  child: const Icon(
-                    Icons.crop_square,
-                    color: Colors.white,
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.aspectRatio = 1;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                    },
+                    child: const Icon(
+                      Icons.crop_square,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.aspectRatio = 1 / 2;
-                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
-                  },
-                  child: Text(
-                    '1:2',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Colors.white),
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.aspectRatio = 1 / 2;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                    },
+                    child: Text(
+                      '1:2',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.aspectRatio = 2 / 1;
-                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
-                  },
-                  child: Text(
-                    '2:1',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Colors.white),
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.aspectRatio = 2 / 1;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                    },
+                    child: Text(
+                      '2:1',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.aspectRatio = 4 / 3;
-                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
-                  },
-                  child: Text(
-                    '4:3',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Colors.white),
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.aspectRatio = 4 / 3;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                    },
+                    child: Text(
+                      '4:3',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.aspectRatio = 3 / 4;
-                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
-                  },
-                  child: Text(
-                    '3:4',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Colors.white),
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.aspectRatio = 3 / 4;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                    },
+                    child: Text(
+                      '3:4',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.aspectRatio = 16 / 9;
-                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
-                  },
-                  child: Text(
-                    '16:9',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Colors.white),
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.aspectRatio = 16 / 9;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                    },
+                    child: Text(
+                      '16:9',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
-                ),
-                BottomIconButtonWidget(
-                  onTap: () {
-                    controller.aspectRatio = 9 / 16;
-                    controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
-                  },
-                  child: Text(
-                    '9:16',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Colors.white),
+                  BottomIconButtonWidget(
+                    onTap: () {
+                      controller.aspectRatio = 9 / 16;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                    },
+                    child: Text(
+                      '9:16',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
