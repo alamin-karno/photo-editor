@@ -56,7 +56,9 @@ class HomeScreen extends StatelessWidget {
                   BottomButtonWidget(
                     icon: Icons.filter_vintage_outlined,
                     title: 'Filters',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/filter');
+                    },
                   ),
                 ],
               ),
