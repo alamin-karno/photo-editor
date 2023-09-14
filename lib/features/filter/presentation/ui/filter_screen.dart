@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/providers/providers.dart';
-import 'package:photo_editor/features/crop/presentation/widgets/bottom_icon_button_widget.dart';
+import 'package:photo_editor/features/filter/data/local/filter_data.dart';
 import 'package:provider/provider.dart';
 
 class FilterScreen extends StatelessWidget {
@@ -29,7 +29,10 @@ class FilterScreen extends StatelessWidget {
         child: Consumer<AppImageProvider>(
           builder: (context, state, child) {
             if (state.currentImage != null) {
-              return Image.memory(state.currentImage!);
+              return ColorFiltered(
+                colorFilter: ColorFilter.matrix(state.currentFilter),
+                child: Image.memory(state.currentImage!),
+              );
             }
             return const CircularProgressIndicator.adaptive();
           },
@@ -40,102 +43,67 @@ class FilterScreen extends StatelessWidget {
         child: SafeArea(
           child: Container(
             width: double.infinity,
-            height: 60,
+            height: 95,
             color: Colors.black,
-            child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.rotate_90_degrees_cw_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.rotate_90_degrees_ccw_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.crop_free,
-                      color: Colors.white,
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.crop_square,
-                      color: Colors.white,
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: Text(
-                      '1:2',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: Text(
-                      '2:1',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: Text(
-                      '4:3',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: Text(
-                      '3:4',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: Text(
-                      '16:9',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                  BottomIconButtonWidget(
-                    onTap: () {},
-                    child: Text(
-                      '9:16',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: FilterData.filterList.length,
+              itemBuilder: (context, index) {
+                return Consumer<AppImageProvider>(
+                  builder: (context, state, child) {
+                    if (state.currentImage != null) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: InkWell(
+                          onTap: () {
+                            state.onChangeFilter(
+                              FilterData.filterList[index].matrix,
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 60,
+                                width: 60,
+                                child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: ColorFiltered(
+                                    colorFilter: ColorFilter.matrix(
+                                      FilterData.filterList[index].matrix,
+                                    ),
+                                    child: Image.memory(
+                                      state.currentImage!,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                FilterData.filterList[index].filterName,
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const CircularProgressIndicator.adaptive();
+                    }
+                  },
+                );
+              },
             ),
           ),
         ),
