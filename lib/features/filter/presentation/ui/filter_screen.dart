@@ -1,11 +1,29 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/providers/providers.dart';
 import 'package:photo_editor/features/filter/data/local/filter_data.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 
-class FilterScreen extends StatelessWidget {
+class FilterScreen extends StatefulWidget {
   const FilterScreen({Key? key}) : super(key: key);
+
+  @override
+  State<FilterScreen> createState() => _FilterScreenState();
+}
+
+class _FilterScreenState extends State<FilterScreen> {
+  late AppImageProvider imageProvider;
+
+  ScreenshotController screenshotController = ScreenshotController();
+
+  @override
+  void initState() {
+    imageProvider = Provider.of<AppImageProvider>(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +38,17 @@ class FilterScreen extends StatelessWidget {
         title: const Text('Filters'),
         actions: [
           IconButton(
-            onPressed: () async {},
+            onPressed: () async {
+              screenshotController.capture().then((Uint8List? image) {
+                if (image != null) {
+                  imageProvider.onChangeImage(image);
+                  if (!mounted) return;
+                  Navigator.of(context).pop();
+                }
+              }).catchError((onError) {
+                debugPrint(onError);
+              });
+            },
             icon: const Icon(CupertinoIcons.checkmark_alt),
           ),
         ],
@@ -29,9 +57,12 @@ class FilterScreen extends StatelessWidget {
         child: Consumer<AppImageProvider>(
           builder: (context, state, child) {
             if (state.currentImage != null) {
-              return ColorFiltered(
-                colorFilter: ColorFilter.matrix(state.currentFilter),
-                child: Image.memory(state.currentImage!),
+              return Screenshot(
+                controller: screenshotController,
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.matrix(state.currentFilter),
+                  child: Image.memory(state.currentImage!),
+                ),
               );
             }
             return const CircularProgressIndicator.adaptive();
