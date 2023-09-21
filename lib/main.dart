@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/providers/image_provider.dart';
+import 'package:photo_editor/features/adjust/presentation/state/adjust_provider.dart';
+import 'package:photo_editor/features/adjust/presentation/ui/adjust_screen.dart';
 import 'package:photo_editor/features/crop/presentation/ui/crop_screen.dart';
 import 'package:photo_editor/features/filter/presentation/ui/filter_screen.dart';
 import 'package:photo_editor/features/home/presentation/ui/home_screen.dart';
@@ -11,6 +13,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AppImageProvider()),
+        ChangeNotifierProvider(create: (_) => AdjustProvider()),
       ],
       child: const MyApp(),
     ),
@@ -40,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/home': (_) => const HomeScreen(),
         '/crop': (_) => const CropScreen(),
         '/filter': (_) => const FilterScreen(),
+        '/adjust': (_) => const AdjustScreen(),
       },
       initialRoute: '/',
     );

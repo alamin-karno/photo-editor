@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/providers/providers.dart';
+import 'package:photo_editor/core/shared/shared.dart';
 import 'package:photo_editor/features/filter/data/local/filter_data.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -28,30 +29,20 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: CloseButton(
-          color: Colors.white,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: const Text('Filters'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              screenshotController.capture().then((Uint8List? image) {
-                if (image != null) {
-                  imageProvider.onChangeImage(image);
-                  if (!mounted) return;
-                  Navigator.of(context).pop();
-                }
-              }).catchError((onError) {
-                debugPrint(onError);
-              });
-            },
-            icon: const Icon(CupertinoIcons.checkmark_alt),
-          ),
-        ],
+      appBar: CustomAppBarWidget(
+        title: 'Filters',
+        actionIcon: CupertinoIcons.checkmark_alt,
+        actionPressed: () async {
+          screenshotController.capture().then((Uint8List? image) {
+            if (image != null) {
+              imageProvider.onChangeImage(image);
+              if (!mounted) return;
+              Navigator.of(context).pop();
+            }
+          }).catchError((onError) {
+            debugPrint(onError);
+          });
+        },
       ),
       body: Center(
         child: Consumer<AppImageProvider>(

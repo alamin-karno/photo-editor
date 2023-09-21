@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/library/crop_image/crop_image.dart';
 import 'package:photo_editor/core/providers/providers.dart';
+import 'package:photo_editor/core/shared/shared.dart';
 import 'package:photo_editor/features/crop/presentation/widgets/bottom_icon_button_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -33,29 +34,19 @@ class _CropScreenState extends State<CropScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: CloseButton(
-          color: Colors.white,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: const Text('Crop'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              ui.Image bitmap = await controller.croppedBitmap();
-              ByteData? data = await bitmap.toByteData(
-                format: ImageByteFormat.png,
-              );
-              Uint8List image = data!.buffer.asUint8List();
-              imageProvider.onChangeImage(image);
-              if (!mounted) return;
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(CupertinoIcons.checkmark_alt),
-          ),
-        ],
+      appBar: CustomAppBarWidget(
+        title: 'Crop',
+        actionIcon: CupertinoIcons.checkmark_alt,
+        actionPressed: () async {
+          ui.Image bitmap = await controller.croppedBitmap();
+          ByteData? data = await bitmap.toByteData(
+            format: ImageByteFormat.png,
+          );
+          Uint8List image = data!.buffer.asUint8List();
+          imageProvider.onChangeImage(image);
+          if (!mounted) return;
+          Navigator.of(context).pop();
+        },
       ),
       body: Center(
         child: Consumer<AppImageProvider>(

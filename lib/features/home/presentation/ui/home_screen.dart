@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/providers/providers.dart';
-import 'package:photo_editor/features/home/presentation/widgets/bottom_button_widget.dart';
+import 'package:photo_editor/core/shared/shared.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,20 +10,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: CloseButton(
-          color: Colors.white,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text('Photo Editor'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.save),
-          ),
-        ],
+      appBar: CustomAppBarWidget(
+        title: 'Photo Editor',
+        actionIcon: Icons.save,
+        actionPressed: () {},
       ),
       body: Center(
         child: Consumer<AppImageProvider>(
@@ -58,6 +48,13 @@ class HomeScreen extends StatelessWidget {
                     title: 'Filters',
                     onTap: () {
                       Navigator.pushNamed(context, '/filter');
+                    },
+                  ),
+                  BottomButtonWidget(
+                    icon: Icons.tune,
+                    title: 'Adjust',
+                    onTap: () {
+                      Navigator.pushNamed(context, '/adjust');
                     },
                   ),
                 ],
