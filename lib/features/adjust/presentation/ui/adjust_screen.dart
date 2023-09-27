@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_editor/core/providers/providers.dart';
@@ -17,6 +19,8 @@ class AdjustScreen extends StatefulWidget {
 class _AdjustScreenState extends State<AdjustScreen> {
   AdjustProvider? adjustProvider;
 
+  late AppImageProvider imageProvider;
+
   ScreenshotController screenshotController = ScreenshotController();
 
   @override
@@ -24,6 +28,8 @@ class _AdjustScreenState extends State<AdjustScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      imageProvider = Provider.of<AppImageProvider>(context, listen: false);
+
       adjustProvider = Provider.of<AdjustProvider>(context, listen: false);
       if (adjustProvider != null) {
         adjustProvider!.adjustImage();
@@ -38,7 +44,17 @@ class _AdjustScreenState extends State<AdjustScreen> {
       appBar: CustomAppBarWidget(
         title: 'Adjust',
         actionIcon: CupertinoIcons.checkmark_alt,
-        actionPressed: () {},
+        actionPressed: () {
+          screenshotController.capture().then((Uint8List? image) {
+            if (image != null) {
+              imageProvider.onChangeImage(image);
+              if (!mounted) return;
+              Navigator.of(context).pop();
+            }
+          }).catchError((onError) {
+            debugPrint(onError);
+          });
+        },
       ),
       body: adjustProvider != null
           ? Stack(
@@ -69,20 +85,75 @@ class _AdjustScreenState extends State<AdjustScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            CustomSliderWidget(
-                              value: adjustProvider!.brightness,
-                              onChanged: (value) {
-                                setState(() {
-                                  adjustProvider!.changeBrightness(value);
+                            Visibility(
+                              visible: adjustProvider!.showBrightness,
+                              child: CustomSliderWidget(
+                                value: adjustProvider!.brightness,
+                                onChanged: (value) {
                                   adjustProvider!.adjustImage(b: value);
-                                });
-                              },
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                            Visibility(
+                              visible: adjustProvider!.showContrast,
+                              child: CustomSliderWidget(
+                                value: adjustProvider!.contrast,
+                                onChanged: (value) {
+                                  setState(() {
+                                    adjustProvider!.adjustImage(c: value);
+                                  });
+                                },
+                              ),
+                            ),
+                            Visibility(
+                              visible: adjustProvider!.showSaturation,
+                              child: CustomSliderWidget(
+                                value: adjustProvider!.saturation,
+                                onChanged: (value) {
+                                  setState(() {
+                                    adjustProvider!.adjustImage(s: value);
+                                  });
+                                },
+                              ),
+                            ),
+                            Visibility(
+                              visible: adjustProvider!.showHue,
+                              child: CustomSliderWidget(
+                                value: adjustProvider!.hue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    adjustProvider!.adjustImage(h: value);
+                                  });
+                                },
+                              ),
+                            ),
+                            Visibility(
+                              visible: adjustProvider!.showSepia,
+                              child: CustomSliderWidget(
+                                value: adjustProvider!.sepia,
+                                onChanged: (value) {
+                                  setState(() {
+                                    adjustProvider!.adjustImage(se: value);
+                                  });
+                                },
+                              ),
                             ),
                           ],
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          adjustProvider!.adjustImage(
+                            b: 0.0,
+                            c: 0.0,
+                            s: 0.0,
+                            h: 0.0,
+                            se: 0.0,
+                          );
+
+                          setState(() {});
+                        },
                         child: Text(
                           'RESET',
                           style: Theme.of(context)
@@ -99,48 +170,70 @@ class _AdjustScreenState extends State<AdjustScreen> {
           : const Center(
               child: CircularProgressIndicator.adaptive(),
             ),
-      bottomNavigationBar: Container(
-        color: Colors.black,
-        child: SafeArea(
-          child: Container(
-            width: double.infinity,
-            height: 60,
-            color: Colors.black,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  BottomButtonWidget(
-                    icon: CupertinoIcons.brightness,
-                    title: 'Brightness',
-                    onTap: () {},
+      bottomNavigationBar: adjustProvider != null
+          ? Container(
+              color: Colors.black,
+              child: SafeArea(
+                child: Container(
+                  width: double.infinity,
+                  height: 60,
+                  color: Colors.black,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        BottomButtonWidget(
+                          isSelected: adjustProvider!.showBrightness,
+                          icon: CupertinoIcons.brightness,
+                          title: 'Brightness',
+                          onTap: () {
+                            adjustProvider!.showSlider(b: true);
+                            setState(() {});
+                          },
+                        ),
+                        BottomButtonWidget(
+                          isSelected: adjustProvider!.showContrast,
+                          icon: Icons.contrast,
+                          title: 'Contrast',
+                          onTap: () {
+                            adjustProvider!.showSlider(c: true);
+                            setState(() {});
+                          },
+                        ),
+                        BottomButtonWidget(
+                          isSelected: adjustProvider!.showSaturation,
+                          icon: Icons.water_drop,
+                          title: 'Saturation',
+                          onTap: () {
+                            adjustProvider!.showSlider(s: true);
+                            setState(() {});
+                          },
+                        ),
+                        BottomButtonWidget(
+                          isSelected: adjustProvider!.showHue,
+                          icon: Icons.filter_tilt_shift,
+                          title: 'Hue',
+                          onTap: () {
+                            adjustProvider!.showSlider(h: true);
+                            setState(() {});
+                          },
+                        ),
+                        BottomButtonWidget(
+                          isSelected: adjustProvider!.showSepia,
+                          icon: Icons.motion_photos_on,
+                          title: 'Sepia',
+                          onTap: () {
+                            adjustProvider!.showSlider(se: true);
+                            setState(() {});
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  BottomButtonWidget(
-                    icon: Icons.contrast,
-                    title: 'Contrast',
-                    onTap: () {},
-                  ),
-                  BottomButtonWidget(
-                    icon: Icons.water_drop,
-                    title: 'Saturation',
-                    onTap: () {},
-                  ),
-                  BottomButtonWidget(
-                    icon: Icons.filter_tilt_shift,
-                    title: 'Hue',
-                    onTap: () {},
-                  ),
-                  BottomButtonWidget(
-                    icon: Icons.motion_photos_on,
-                    title: 'Sepia',
-                    onTap: () {},
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
+            )
+          : const SizedBox(),
     );
   }
 }

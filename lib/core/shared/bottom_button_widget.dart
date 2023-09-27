@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class BottomButtonWidget extends StatelessWidget {
+  final bool isSelected;
+
   final IconData icon;
   final String title;
   final VoidCallback onTap;
 
   const BottomButtonWidget({
     Key? key,
+    this.isSelected = false,
     required this.icon,
     required this.title,
     required this.onTap,
@@ -22,12 +25,19 @@ class BottomButtonWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white),
+            Icon(
+              icon,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.secondary
+                  : Colors.white,
+            ),
             const SizedBox(height: 3),
             Text(
               title.trim(),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.white70,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.secondary
+                        : Colors.white70,
                   ),
             ),
           ],

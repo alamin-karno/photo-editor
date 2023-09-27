@@ -30,12 +30,19 @@ class MyApp extends StatelessWidget {
       title: 'Photo Editor',
       theme: ThemeData(
         useMaterial3: true,
-        primarySwatch: Colors.blue,
         scaffoldBackgroundColor: const Color(0xFF111111),
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           color: Colors.black,
           foregroundColor: Colors.white,
+        ),
+        sliderTheme: const SliderThemeData(
+          showValueIndicator: ShowValueIndicator.always,
+        ),
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.blue,
+        ).copyWith(
+          secondary: Colors.lightBlueAccent,
         ),
       ),
       routes: {

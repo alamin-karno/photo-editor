@@ -11,7 +11,19 @@ class AdjustProvider extends ChangeNotifier {
   double hue = 0;
   double sepia = 0;
 
+  bool showBrightness = true;
+  bool showContrast = false;
+  bool showSaturation = false;
+  bool showHue = false;
+  bool showSepia = false;
+
   adjustImage({b, c, s, h, se}) {
+    brightness = b ?? brightness;
+    contrast = c ?? contrast;
+    saturation = s ?? saturation;
+    hue = h ?? hue;
+    sepia = se ?? sepia;
+
     adj = ColorFilterGenerator(
       name: 'Adjust',
       filters: [
@@ -25,8 +37,12 @@ class AdjustProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeBrightness(double value) {
-    brightness = value;
+  showSlider({b, c, s, h, se}) {
+    showBrightness = b ?? false;
+    showContrast = c ?? false;
+    showSaturation = s ?? false;
+    showHue = h ?? false;
+    showSepia = se ?? false;
     notifyListeners();
   }
 }
