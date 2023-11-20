@@ -4,6 +4,7 @@ import 'package:photo_editor/features/adjust/presentation/state/adjust_provider.
 import 'package:photo_editor/features/adjust/presentation/ui/adjust_screen.dart';
 import 'package:photo_editor/features/crop/presentation/ui/crop_screen.dart';
 import 'package:photo_editor/features/filter/presentation/ui/filter_screen.dart';
+import 'package:photo_editor/features/fit/presentation/ui/fit_screen.dart';
 import 'package:photo_editor/features/home/presentation/ui/home_screen.dart';
 import 'package:photo_editor/features/start/presentation/ui/start_screen.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         '/crop': (_) => const CropScreen(),
         '/filter': (_) => const FilterScreen(),
         '/adjust': (_) => const AdjustScreen(),
+        '/fit': (_) => const FitScreen(),
       },
       initialRoute: '/',
     );

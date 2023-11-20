@@ -17,30 +17,37 @@ class BottomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: isSelected
-                  ? Theme.of(context).colorScheme.secondary
-                  : Colors.white,
-            ),
-            const SizedBox(height: 3),
-            Text(
-              title.trim(),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isSelected
-                        ? Theme.of(context).colorScheme.secondary
-                        : Colors.white70,
-                  ),
-            ),
-          ],
+    return Container(
+      width: 80,
+      color: isSelected ? Colors.white10 : null,
+      margin: const EdgeInsets.symmetric(horizontal: 1),
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: isSelected
+                    ? Theme.of(context).colorScheme.secondary
+                    : Colors.white,
+              ),
+              const SizedBox(height: 3),
+              Text(
+                title.trim(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.secondary
+                          : Colors.white70,
+                    ),
+              ),
+            ],
+          ),
         ),
       ),
     );

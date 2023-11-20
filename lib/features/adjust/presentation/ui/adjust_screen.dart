@@ -167,9 +167,7 @@ class _AdjustScreenState extends State<AdjustScreen> {
                 ),
               ],
             )
-          : const Center(
-              child: CircularProgressIndicator.adaptive(),
-            ),
+          : const Center(child: CircularProgressIndicator.adaptive()),
       bottomNavigationBar: adjustProvider != null
           ? Container(
               color: Colors.black,

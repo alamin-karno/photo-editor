@@ -77,12 +77,16 @@ class _FilterScreenState extends State<FilterScreen> {
                 return Consumer<AppImageProvider>(
                   builder: (context, state, child) {
                     if (state.currentImage != null) {
-                      return Padding(
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 400),
+                        color:
+                            state.currentIndex == index ? Colors.white12 : null,
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: InkWell(
                           onTap: () {
                             state.onChangeFilter(
                               FilterData.filterList[index].matrix,
+                              index,
                             );
                           },
                           child: Column(

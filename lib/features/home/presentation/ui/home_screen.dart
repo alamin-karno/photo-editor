@@ -57,6 +57,13 @@ class HomeScreen extends StatelessWidget {
                       Navigator.pushNamed(context, '/adjust');
                     },
                   ),
+                  BottomButtonWidget(
+                    icon: Icons.fit_screen_sharp,
+                    title: 'Fit',
+                    onTap: () {
+                      Navigator.pushNamed(context, '/fit');
+                    },
+                  ),
                 ],
               ),
             ),

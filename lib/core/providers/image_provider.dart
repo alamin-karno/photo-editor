@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:photo_editor/features/filter/data/local/filter_data.dart';
 
 class AppImageProvider extends ChangeNotifier {
+  int _currentIndex = 0;
+
   Uint8List? _currentImage;
 
   List<double> _currentFilter = FilterData.filterList[0].matrix;
@@ -21,10 +23,13 @@ class AppImageProvider extends ChangeNotifier {
 
   Uint8List? get currentImage => _currentImage;
 
-  onChangeFilter(List<double> filterData) {
+  onChangeFilter(List<double> filterData, int index) {
     _currentFilter = filterData;
+    _currentIndex = index;
     notifyListeners();
   }
+
+  int get currentIndex => _currentIndex;
 
   List<double> get currentFilter => _currentFilter;
 }
